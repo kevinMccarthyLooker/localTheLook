@@ -7,6 +7,7 @@ include: "*.view"
 include: "*.dashboard"
 
 explore: order_items {
+  fields:[ALL_FIELDS*,-orders.user_id]
   join: orders {sql_on: ${order_items.order_id} = ${orders.id} ;;
     type: left_outer
     relationship: many_to_one
