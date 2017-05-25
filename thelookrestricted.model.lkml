@@ -10,7 +10,7 @@ include: "*.dashboard"
 explore: recent_order_items {
   from: order_items
   view_name: order_items
-  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 and ${products.brand}='{{_user_attributes["users_brand"]}}';;
+  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 and ${products.brand} like '{{_user_attributes["users_brand"]}}';;
 
   always_join: [orders,products]
 
