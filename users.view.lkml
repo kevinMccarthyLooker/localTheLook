@@ -71,6 +71,12 @@ view: users {
     drill_fields: [detail*]
   }
 
+dimension: currentUserBrand {
+  type: string
+  sql: '{{_user_attributes["users_brand"]}}' ;;
+}
+
+
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
