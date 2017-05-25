@@ -73,7 +73,7 @@ view: users {
 
 dimension: currentUserBrand {
   type: string
-  sql: '{{_user_attributes["users_brand"]}}' ;;
+  sql: case when ${products.brand} like '{{_user_attributes["users_brand"]}}' then 'happy' else 'Other Brands' end  ;;
 }
 
 
