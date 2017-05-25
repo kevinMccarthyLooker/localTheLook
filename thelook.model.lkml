@@ -33,6 +33,14 @@ explore: order_items {
   }
 }
 
+explore: recent_order_items {
+  extends: [order_items]
+  from: order_items
+  view_name: order_items
+  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 ;;
+
+}
+
 explore: orders {
   join: users {
     type: left_outer
