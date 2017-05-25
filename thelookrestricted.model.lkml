@@ -10,8 +10,9 @@ include: "*.dashboard"
 explore: recent_order_items {
   from: order_items
   view_name: order_items
-  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 ;;
-  always_join: [orders]
+  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 and ${products.brand}='{{_user_attributes["users_brand"]}}';;
+
+  always_join: [orders,products]
 
   join: orders {sql_on: ${order_items.order_id} = ${orders.id} ;;
     type: left_outer
