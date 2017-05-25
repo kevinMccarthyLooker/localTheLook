@@ -31,3 +31,5 @@ explore: recent_order_items {
     relationship: many_to_one
   }
 }
+
+explore: userattributepdt {}
