@@ -6,7 +6,35 @@ include: "*.view"
 # include all the dashboards
 include: "*.dashboard"
 
+label: "Orders"
+
 explore: order_items {
+  access_filter: {
+    field: products.brand
+    user_attribute: brand
+  }
+
+
+  hidden: yes
+#   sql_always_where: ${orders.status}='complete' ;;
+#   conditionally_filter: {
+#     filters:{
+#       field:  orders.status
+#       value: "complete"
+#     }
+#     unless: [orders.created_date]
+#   }
+#   always_filter: {
+#     filters:{
+#       field:  orders.status
+#       value: "complete"
+#     }
+#   }
+#   always_join: [orders]
+
+
+
+  group_label: "Orders restricted"
   fields:[ALL_FIELDS*,-orders.user_id]
   join: orders {sql_on: ${order_items.order_id} = ${orders.id} ;;
     type: left_outer
@@ -21,3 +49,5 @@ explore: order_items {
     relationship: many_to_one
   }
 }
+
+explore:  inventory_items {}

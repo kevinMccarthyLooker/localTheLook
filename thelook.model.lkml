@@ -14,7 +14,27 @@ include: "*.dashboard"
 #   }
 # }
 
+explore: user_facts2 {
+  join: orders {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${user_facts2.user_id}=${orders.user_id} ;;
+  }
+}
+
 explore: order_items {
+  access_filter: {
+    field: products.brand
+#     user_attribute: brand_string_filter
+    user_attribute: brand
+#     user_attribute: users_brand
+  }
+
+#   access_filter: {
+#     field: products.brand
+#     user_attribute: users_brand
+#   }
+
   join: orders {sql_on: ${order_items.order_id} = ${orders.id} ;;
     type: left_outer
     relationship: many_to_one
@@ -31,6 +51,13 @@ explore: order_items {
     type: left_outer
     relationship: many_to_one
   }
+
+  join: user_facts_lookml_derived {
+    type: left_outer
+    relationship: one_to_one
+    sql_on: ${users.id}=${user_facts_lookml_derived.user_id} ;;
+  }
+
 }
 
 explore: recent_order_items {
@@ -41,6 +68,8 @@ explore: recent_order_items {
   always_join: [orders]
 
 }
+
+explore: user_facts_lookml_derived {}
 
 # explore: orders {
 #   join: users {

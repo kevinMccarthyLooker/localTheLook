@@ -10,7 +10,14 @@ include: "*.dashboard"
 explore: recent_order_items {
   from: order_items
   view_name: order_items
-  sql_always_where:  DATE(orders.created_at ) > CURRENT_DATE()-10 and ${products.brand} like '{{_user_attributes["users_brand"]}}';;
+  sql_always_where:  DATE(${orders.created_raw} ) > CURRENT_DATE()-10;;
+#   sql_always_where:  DATE(${orders.created_raw} ) > CURRENT_DATE()-10 and ${products.brand} like '{{_user_attributes["users_brand"]}}';;
+
+
+  access_filter: {
+    field: products.brand
+    user_attribute: users_brand
+  }
 
   always_join: [orders,products]
 
@@ -32,4 +39,4 @@ explore: recent_order_items {
   }
 }
 
-explore: userattributepdt {}
+# explore: userattributepdt {}
