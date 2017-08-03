@@ -16,7 +16,8 @@ view: orders {
       week,
       month,
       quarter,
-      year
+      year,
+      month_name
     ]
     sql: ${TABLE}.created_at ;;
   }
@@ -30,24 +31,51 @@ view: orders {
     # hidden: yes
     sql: ${TABLE}.user_id ;;
   }
-  dimension: user_id_testing {
-    type: number
+  dimension: user_id_testing_old{
+    type: string
     # hidden: yes
+#     sql: ${TABLE}.user_id ;;
+
+#     link: {
+#       label: "test link: _in_query: {{status._in_query}}, _is_selected: {{status._is_selected}}, _is_filtered:{{status._is_filtered}}"
+#       url: "
+#       {% if count._value==true %}
+#       /explore/yes
+#       {% else %}
+#       /explore/{{_model._name}}/{{_explore._name}}?fields={{_view._name}}.detail*&f[{{_field._name}}]={{ value }}
+#       {% endif%}
+#       "
+#     }
+#     link: {
+#       label: "test link: _in_query: {% if status._in_query %} haha {% else %} false {% endif %}"
+#       url: "
+#       foo
+#       "
+#     }
+
+#    sql: 'test link: _is_filtered: {% if status._is_filtered %} sql TRUE {% else %} sql false {% endif %}' ;;
+
+#   html: test link: _is_filtered: {% if status._is_filtered %} html TRUE {% else %} html false {% endif %} ;;
+
+  }
+
+  dimension: user_id_link_testing{
+    type: string
     sql: ${TABLE}.user_id ;;
+
     link: {
-      label: "test link: _in_query: {{status._in_query}}, _is_selected: {{status._is_selected}}, _is_filtered:{{status._is_filtered}}"
+      label: "test liquid: _in_query value: {{status._in_query}}, _is_selected: {{status._is_selected}}, _is_filtered:{{status._is_filtered}}"
       url: "
-      {% if count._value==true %}
-      /explore/yes
+      {% if status._is_selected==true %}
+      go to some special URL that is better for people who care about status
       {% else %}
       /explore/{{_model._name}}/{{_explore._name}}?fields={{_view._name}}.detail*&f[{{_field._name}}]={{ value }}
       {% endif%}
-
       "
     }
+#    sql: 'test link: _is_filtered: {% if status._is_filtered %} sql TRUE {% else %} sql false {% endif %}' ;;
+#   html: test link: _is_filtered: {% if status._is_filtered %} html TRUE {% else %} html false {% endif %} ;;
   }
-
-#   status._in_query
 
   measure: count {
     type: count
@@ -78,4 +106,14 @@ view: orders {
   set: detail {
     fields: [id]
   }
+
+  filter: x {
+    type: string
+  }
+
+  dimension: my_selected_value {
+    type: string
+    sql: power(cast({% parameter x %} as DECIMAL(11,5)),datediff(current_date,${created_date}))  ;;
+  }
+
 }

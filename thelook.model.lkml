@@ -23,12 +23,12 @@ explore: user_facts2 {
 }
 
 explore: order_items {
-  access_filter: {
-    field: products.brand
-#     user_attribute: brand_string_filter
-    user_attribute: brand
-#     user_attribute: users_brand
-  }
+#   access_filter: {
+#     field: products.brand
+# #     user_attribute: brand_string_filter
+#     user_attribute: brand
+# #     user_attribute: users_brand
+#   }
 
 #   access_filter: {
 #     field: products.brand
@@ -70,6 +70,27 @@ explore: recent_order_items {
 }
 
 explore: user_facts_lookml_derived {}
+
+explore: split_into_two_view_labels {
+  from: order_items
+  fields: [ALL_FIELDS*, -split_into_two_view_labels.sale_price]
+  join: order_items {
+    view_label: "order_items2"
+    fields: [order_items.sale_price]
+    relationship: one_to_one
+    sql_on: ${split_into_two_view_labels.id}=${order_items.id} ;;
+  }
+}
+
+view: order_items_fields_for_ps {
+  label: "order_items"
+  extends: [order_items]
+  dimension: sale_price {label:"happy label"}
+  set: order_items_fields_for_ps_fields {fields:[order_items_fields_for_ps.sale_price,order_items_fields_for_ps.order_id]}
+}
+explore: order_items_fields_for_ps {
+   fields:[ALL_FIELDS*,-order_items_fields_for_ps.order_items_fields_for_ps_fields*]
+  }
 
 # explore: orders {
 #   join: users {

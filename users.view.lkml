@@ -12,6 +12,20 @@ view: users {
     sql: ${TABLE}.age ;;
   }
 
+
+  measure: count2 {
+    label: "Campaign Invites"
+    type: count
+  }
+  measure: count_over_20 {type: count filters: {field:age value:">20"} }
+  measure: count_over_30 {type: count filters: {field:age value:">30"} }
+  measure: count_over_40 {type: count filters: {field:age value:">40"}label:"Site Visits"}
+  measure: count_over_50 {type: count filters: {field:age value:">50"}label:"Product Page Views"}
+  measure: count_over_55 {type: count filters: {field:age value:">55"}label:"Added to Cart"}
+  measure: count_over_60 {type: count filters: {field:age value:">60"}label:"Purchase Complete"}
+
+
+
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;

@@ -26,6 +26,10 @@ view: products {
     type: string
     sql: ${TABLE}.item_name ;;
   }
+  dimension: item_name_length {
+    type: number
+    sql: CHAR_length(${item_name}) ;;
+  }
 
   dimension: rank {
     type: number
