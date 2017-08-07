@@ -17,7 +17,11 @@ view: orders {
       month,
       quarter,
       year,
-      month_name
+      month_name,
+      hour_of_day,
+      day_of_week,
+      week_of_year,
+      day_of_month
     ]
     sql: ${TABLE}.created_at ;;
   }
@@ -114,6 +118,23 @@ view: orders {
   dimension: my_selected_value {
     type: string
     sql: power(cast({% parameter x %} as DECIMAL(11,5)),datediff(current_date,${created_date}))  ;;
+  }
+
+  measure: count_distinct_days {
+    type: count_distinct
+    sql: ${created_date} ;;
+  }
+
+  measure: orders_per_day {
+    type: number
+    sql: ${count}*1.0/nullif(${count_distinct_days},0) ;;
+    value_format_name: decimal_1
+  }
+
+  measure: orders_per_person {
+    type: number
+    sql: ${count}*1.0/nullif(${users.count},0) ;;
+    value_format_name: decimal_1
   }
 
 }

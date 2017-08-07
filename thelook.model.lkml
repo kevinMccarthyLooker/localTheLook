@@ -15,6 +15,7 @@ include: "*.dashboard"
 # }
 
 explore: user_facts2 {
+  fields: [ALL_FIELDS*,-orders.orders_per_person]
   join: orders {
     type: left_outer
     relationship: one_to_one
@@ -23,6 +24,7 @@ explore: user_facts2 {
 }
 
 explore: order_items {
+  fields: [ALL_FIELDS*,-orders.orders_per_person]
 #   access_filter: {
 #     field: products.brand
 # #     user_attribute: brand_string_filter

@@ -9,9 +9,14 @@ include: "*.dashboard"
 label: "Orders"
 
 explore: order_items {
+  fields: [ALL_FIELDS*,-orders.orders_per_person]
   access_filter: {
     field: products.brand
     user_attribute: brand
+  }
+  join: users {
+    relationship: many_to_one
+    sql_on: ${orders.user_id}=${users.id} ;;
   }
 
 
