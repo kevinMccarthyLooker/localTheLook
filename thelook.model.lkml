@@ -15,7 +15,7 @@ include: "*.dashboard"
 # }
 
 explore: user_facts2 {
-  fields: [ALL_FIELDS*,-orders.orders_per_person]
+  fields: [ALL_FIELDS*,-orders.orders_per_person,-orders.custom_filter_or_example]
   join: orders {
     type: left_outer
     relationship: one_to_one
@@ -105,3 +105,39 @@ explore: order_items_fields_for_ps {
 # explore: products {}
 #
 # explore: users {}
+
+explore: user_created {}
+
+
+# explore: symetric_agg_testing {
+#   from: order_items
+#   view_name: order_items
+
+# join: orders {
+#   sql_on: ${order_items.order_id}=${orders.id} ;;
+#   relationship: one_to_many
+# }
+
+# # join: users {
+# #   sql_on: ${users.id}=${orders.user_id} ;;
+# #   relationship: many_to_one
+# # }
+# #
+# # join: user_facts2 {
+# #   sql_on: ${users.id}=${user_facts2.user_id} ;;
+# #   relationship: one_to_one
+# # }
+
+# #   join: orders2 {
+# #     from: orders
+# #     sql_on: ${order_items.order_id}=${orders2.id} ;;
+# #     relationship: one_to_one
+# #   }
+
+#   join: users2 {
+#     from: users
+#     sql_on: ${users2.id}=${order_items.id} ;;
+#     relationship: one_to_one
+#   }
+
+# }

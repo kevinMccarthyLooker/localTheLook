@@ -85,9 +85,6 @@ view: orders {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id, order_items.count]
 
-
-
-
 #     html:
 #     {{value}}
 #
@@ -107,6 +104,24 @@ view: orders {
 # <span style  ="color: goldenrod">{{ value }}</span>
 # {% endif %} ;;
   }
+
+  filter: count_filter_threshold {
+    type: number
+#     suggestions: ["100","1000","10000"]
+  }
+
+  measure: count_over_threshold_yesNo {
+    type: yesno
+#     sql: ${count}>case when {% condition count_filter_threshold %} '100' {% endcondition %} then 100 else 0 end;;
+    sql:  {% condition count_filter_threshold %} ${count} {% endcondition %} ;;
+#     sql: ${count} > {% parameter count_filter_threshold %} ;;
+  }
+
+  measure: custom_filter_or_example {
+    type: yesno
+    sql: (${count_over_threshold_yesNo} OR ${products.brand}='Calvin Klein') ;;
+  }
+
   set: detail {
     fields: [id]
   }
